@@ -1,0 +1,221 @@
+{
+  "categories": [
+    {
+      "key": 1,
+      "name": "Hardware",
+      "color": "#FF5733"
+    },
+    {
+      "key": 2,
+      "name": "Software",
+      "color": "#33C4FF"
+    },
+    {
+      "key": 3,
+      "name": "Programming",
+      "color": "#F4D03F"
+    },
+    {
+      "key": 4,
+      "name": "Networking",
+      "color": "#82E0AA"
+    },
+    {
+      "key": 5,
+      "name": "Security",
+      "color": "#E74C3C"
+    },
+    {
+      "key": 6,
+      "name": "AI",
+      "color": "#8E44AD"
+    },
+    {
+      "key": 7,
+      "name": "Internet",
+      "color": "#34495E"
+    }
+  ],
+  "qas": [
+    {
+      "key": 1,
+      "question": "How do you fix a broken printer?",
+      "answer": "Try yelling at it first, then unplug it, and plug it back in. Works every time.",
+      "categoryId": 1
+    },
+    {
+      "key": 2,
+      "question": "Why does Windows 10 say 'It's time for an update' when you're in the middle of something important?",
+      "answer": "Because it wants to test your patience and commitment to your task.",
+      "categoryId": 2
+    },
+    {
+      "key": 3,
+      "question": "How do you impress a programmer?",
+      "answer": "Whisper 'I know the difference between Java and JavaScript.'",
+      "categoryId": 3
+    },
+    {
+      "key": 4,
+      "question": "Why don't we trust atoms anymore?",
+      "answer": "Because they make up everything, even network errors.",
+      "categoryId": 4
+    },
+    {
+      "key": 5,
+      "question": "Why was the computer cold?",
+      "answer": "It left its Windows open.",
+      "categoryId": 1
+    },
+    {
+      "key": 6,
+      "question": "What did the computer do at lunchtime?",
+      "answer": "Had a byte.",
+      "categoryId": 2
+    },
+    {
+      "key": 7,
+      "question": "Why was the JavaScript developer sad?",
+      "answer": "Because he didn't know how to TypeScript.",
+      "categoryId": 3
+    },
+    {
+      "key": 8,
+      "question": "How do routers and switches communicate?",
+      "answer": "They sign a TCP/IPeace treaty.",
+      "categoryId": 4
+    },
+    {
+      "key": 9,
+      "question": "What's a hacker's favorite season?",
+      "answer": "Phishing season.",
+      "categoryId": 5
+    },
+    {
+      "key": 10,
+      "question": "Why did the AI go to therapy?",
+      "answer": "It had too many neural issues.",
+      "categoryId": 6
+    },
+    {
+      "key": 11,
+      "question": "Why do programmers hate nature?",
+      "answer": "Too many bugs.",
+      "categoryId": 3
+    },
+    {
+      "key": 12,
+      "question": "What do you call an internet explorer?",
+      "answer": "A time traveler.",
+      "categoryId": 7
+    },
+    {
+      "key": 13,
+      "question": "How does a computer get drunk?",
+      "answer": "It takes screenshots.",
+      "categoryId": 1
+    },
+    {
+      "key": 14,
+      "question": "Why don't programmers like to go outside?",
+      "answer": "The sunlight causes too many glares on their screens.",
+      "categoryId": 3
+    },
+    {
+      "key": 15,
+      "question": "What's a computer's favorite beat?",
+      "answer": "An algorithm.",
+      "categoryId": 2
+    },
+    {
+      "key": 16,
+      "question": "How do you comfort a JavaScript bug?",
+      "answer": "You console it.",
+      "categoryId": 3
+    },
+    {
+      "key": 17,
+      "question": "What do you call an astronaut’s network?",
+      "answer": "The Interstellar-net.",
+      "categoryId": 4
+    },
+    {
+      "key": 18,
+      "question": "Why did the programmer quit his job?",
+      "answer": "Because he didn't get arrays.",
+      "categoryId": 3
+    },
+    {
+      "key": 19,
+      "question": "What do computer scientists wear?",
+      "answer": "Whatever fits the algorithm.",
+      "categoryId": 2
+    },
+    {
+      "key": 20,
+      "question": "Why do programmers prefer iOS development?",
+      "answer": "Because it’s less of a pane than Windows.",
+      "categoryId": 2
+    },
+    {
+      "key": 21,
+      "question": "What kind of music do coders listen to?",
+      "answer": "Heavy metal, to understand the core of hardware.",
+      "categoryId": 1
+    },
+    {
+      "key": 22,
+      "question": "Why can't you trust an SEO expert?",
+      "answer": "Because they know how to make your site disappear.",
+      "categoryId": 7
+    },
+    {
+      "key": 23,
+      "question": "Why do programmers always mix up Halloween and Christmas?",
+      "answer": "Because Oct 31 equals Dec 25.",
+      "categoryId": 3
+    },
+    {
+      "key": 24,
+      "question": "How does the man in the moon cut his hair?",
+      "answer": "Eclipse it.",
+      "categoryId": 4
+    },
+    {
+      "key": 25,
+      "question": "What do you get when you cross a cat with a dark web?",
+      "answer": "A purranoid hacker.",
+      "categoryId": 5
+    },
+    {
+      "key": 26,
+      "question": "Why are PCs like air conditioners?",
+      "answer": "They stop working properly if you open Windows.",
+      "categoryId": 1
+    },
+    {
+      "key": 27,
+      "question": "Why do programmers prefer dark mode?",
+      "answer": "Because light attracts bugs.",
+      "categoryId": 3
+    },
+    {
+      "key": 28,
+      "question": "What’s a bug’s favorite sport?",
+      "answer": "Cricket.",
+      "categoryId": 5
+    },
+    {
+      "key": 29,
+      "question": "Why was the database administrator so calm?",
+      "answer": "Because he had his data under control.",
+      "categoryId": 2
+    },
+    {
+      "key": 30,
+      "question": "What kind of problem solving does a beach offer?",
+      "answer": "Sandy-box testing.",
+      "categoryId": 4
+    }
+  ]
+}

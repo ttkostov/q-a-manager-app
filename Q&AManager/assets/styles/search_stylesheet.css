@@ -1,0 +1,43 @@
+.search-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.search-container input[type=text] {
+    border-color: var(--primary-color);
+    border-width: 1px;
+    padding: 5px;
+    margin-right: 5px;
+    min-height: 20px;
+    font-size: 1em;
+}
+
+.search-container div {
+    display: flex;
+}
+
+.search-container button {
+    padding: 9px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .search-container div {
+        flex-grow: 1;
+    }
+
+    .search-container input[type=text] {
+        flex-grow: 1;
+    }
+
+    .search-container input[type=text], .topnav .search-container button {
+        text-align: left;
+        width: 100%;
+        margin: 0;
+        padding: 14px;
+    }
+
+    .search-container {
+        margin-bottom: 1em;
+    }
+}

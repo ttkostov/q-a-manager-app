@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,
+                   initial-scale=1.0">
+    <!-- using google icons-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet"/>
+    <link href="../assets/styles/global_stylesheet.css"
+          rel="stylesheet">
+    <link href="../assets/styles/navigation_stylesheet.css"
+          rel="stylesheet">
+    <link href="../assets/styles/accordion_stylesheet.css"
+          rel="stylesheet">
+    <link href="../assets/styles/dialog_stylesheet.css"
+          rel="stylesheet">
+    <link href="../assets/styles/manage_stylesheet.css"
+          rel="stylesheet">
+    <link href="../assets/styles/search_stylesheet.css"
+          rel="stylesheet">
+    <title>Q&A Manager | Manage</title>
+    <link rel="icon" type="image/png" href="../assets/icons/android-chrome-512x512.png">
+</head>
+<body>
+<nav id="navigation">
+</nav>
+
+<div id="page-content">
+
+    <div class="search-container">
+        <div>
+            <input type="text" placeholder="Search.." name="search" id="search-input">
+            <button type="submit" class="global-button" id="search-button">
+                <span class="material-symbols-outlined">search</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="option-buttons-container">
+        <button class="global-button" id="add-entry-button">
+            <span class="material-symbols-outlined">add_box</span>
+            Add Q&A
+        </button>
+        <button class="global-button" id="delete-all-entries-button">
+            <span class="material-symbols-outlined">delete_forever</span>
+            Delete all entries
+        </button>
+    </div>
+
+
+
+</div>
+
+<dialog class="global-dialog" id="manage-qa-dialog">
+    <h3 id="manage-qa-dialog-heading"></h3>
+    <form class="dialog-content" id="dialog-form">
+        <div class="dialog-form-container">
+
+            <div class="dialog-form-element-container">
+                <label for=id>ID</label>
+                <input type="text" placeholder="ID is generated automatically" name="id" id="id-input-field" disabled>
+            </div>
+
+            <div class="dialog-form-element-container">
+                <label for=question>Question</label>
+                <input type="text" placeholder="Enter Question" name="question" id="question-input-field" required>
+            </div>
+
+            <div class="dialog-form-element-container">
+                <label for="answer">Answer</label>
+                <span class role="textbox" contenteditable placeholder="Enter Answer" name="answer" id="answer-input-field" required>
+            </div>
+
+            <div class="dialog-form-element-container">
+                <label for="category">Category</label>
+                <select name="category" id="category-input-field" required>
+                    <option value="basic">Basic</option>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="dialog-buttons-container">
+            <button class="global-button" type="button" id="add-qa-save-button">
+                Save
+            </button>
+            <button class="global-button" type="button" id="add-qa-cancel-button">
+                Cancel
+            </button>
+        </div>
+    </form>
+
+
+</dialog>
+
+
+<script type='text/javascript' src='../js/tinycolor.js'></script>
+<script type="application/javascript" src="../js/global.js"></script>
+<script type="application/javascript" src="../js/manage.js"></script>
+<script type="application/javascript" src="../js/element-builders.js"></script>
+
+
+</body>
+</html>

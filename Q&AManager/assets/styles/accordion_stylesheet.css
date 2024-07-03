@@ -1,0 +1,61 @@
+/* stylesheet for accordion elements for Q&A entries */
+
+.accordion-header, .option-button{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1em;
+    background-color: var(--accordion-bg-color);
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+.active, .accordion-header:hover, .option-button:hover {
+    background-color: var(--accordion-hover-color);
+}
+
+#edit-button:hover {
+    background-color: var(--accordion-edit-color);
+    color: var(--accordion-option-button-hover-color);
+}
+
+#delete-button:hover {
+    background-color: var(--delete-button-bg-color);
+    color: var(--accordion-option-button-hover-color);
+}
+
+.accordion-panel {
+    padding: 0 18px;
+    background-color: var(--bg-color-light);
+    display: none;
+    overflow: hidden;
+}
+#expand-button {
+
+}
+
+#expand-button:after {
+
+    content: '\02795\FE0E';
+}
+
+.active #expand-button:after  {
+    content: '\2796\FE0E';
+}
+
+.list-element-option-buttons-container {
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.option-button {
+    background-color: transparent;
+}

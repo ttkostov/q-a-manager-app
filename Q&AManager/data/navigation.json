@@ -1,0 +1,25 @@
+{
+  "nav" : [
+    {
+      "id": 1,
+      "name": "Questions & Answers",
+      "path": "./index.html"
+    },
+    {
+      "id": 2,
+      "name": "Manage",
+      "path": "./manage.html"
+    },
+    {
+      "id": 3,
+      "name": "Categories",
+      "path": "./categories.html"
+    },
+    {
+      "id": 4,
+      "name": "Backup",
+      "path": "./backup.html"
+    }
+
+  ]
+}

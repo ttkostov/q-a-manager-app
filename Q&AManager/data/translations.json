@@ -1,0 +1,59 @@
+{
+  "translations": [
+    {
+      "id": "qa_long",
+      "de": "Fragen und Antworten",
+      "en": "Questions & Answers"
+    },
+    {
+      "id": "qa_short",
+      "de": "Q&A",
+      "en": "Q&A"
+    },
+    {
+      "id": "qa_short_plural",
+      "de": "Q&As",
+      "en": "Q&As"
+    },
+    {
+      "id": "edit",
+      "de": "Bearbeiten",
+      "en": "Edit"
+    },
+    {
+      "id": "backup",
+      "de": "Backup",
+      "en": "Backup"
+    },
+    {
+      "id": "categories",
+      "de": "Kategorien",
+      "en": "Categories"
+    },
+    {
+      "id": "question",
+      "de": "Frage",
+      "en": "Question"
+    },
+    {
+      "id": "answer",
+      "de": "Antwort",
+      "en": "Answer"
+    },
+    {
+      "id": "language",
+      "de": "Sprache",
+      "en": "Language"
+    },
+    {
+      "id": "english",
+      "de": "Englisch",
+      "en": "English"
+    },
+    {
+      "id": "german",
+      "de": "Deutsch",
+      "en": "German"
+    }
+  ]
+}

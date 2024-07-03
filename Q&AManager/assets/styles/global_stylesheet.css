@@ -1,0 +1,104 @@
+/* stylesheet for all pages */
+
+/* color variables */
+
+:root {
+    --bg-color-light: white;
+    --primary-color: #071952;
+    --secondary-color: #088395;
+    --nav-button-hover-color: #37B7C3;
+    --nav-button-color: white;
+    --accordion-bg-color: #EBF4F6;
+    --accordion-hover-color: #9BBEC8;
+    --accordion-edit-color: #071952;
+    --accordion-option-button-hover-color: white;
+    --delete-button-bg-color: darkred;
+    --delete-button-disabled-bg-color: #ee6f6f;
+    --delete-button-bg-hover-color: #5d0000;
+
+
+
+    --global-button-bg-color: #EBF4F6;
+    --global-button-bg-hover-color: #9BBEC8;
+}
+
+body {
+    font-size: 1em;
+}
+
+#page-content {
+    padding: 20px;
+}
+
+.global-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1em;
+    background-color: var(--global-button-bg-color);
+    cursor: pointer;
+    padding: 18px;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+
+}
+
+.global-button span {
+    margin-right: 8px;
+}
+
+.global-button:hover {
+    background-color: var(--global-button-bg-hover-color);
+
+}
+
+/* for manage and categories pages */
+
+.option-buttons-container {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#add-entry-button {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+#add-entry-button:hover {
+    background-color: var(--primary-color);
+}
+
+
+#delete-all-entries-button {
+    background-color: var(--delete-button-bg-color);
+    color: white;
+}
+
+#delete-all-entries-button:hover {
+    background-color: var(--delete-button-bg-hover-color);
+}
+
+
+#delete-all-entries-button:disabled, #delete-all-entries-button:disabled:hover{
+    background-color: var(--delete-button-disabled-bg-color);
+}
+
+#delete-all-entries-button:disabled:hover {
+    cursor: not-allowed;
+}
+
+@media screen and (max-width: 768px) {
+    .option-buttons-container {
+        justify-content: center;
+    }
+
+    #add-entry-button {
+        flex-grow: 1;
+    }
+
+    #delete-all-entries-button {
+        flex-grow: 1;
+    }
+}

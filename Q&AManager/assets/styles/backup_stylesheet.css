@@ -1,0 +1,22 @@
+.option-buttons-container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.option-buttons-container button {
+    margin-top: 1em;
+    font-size: 1.3em;
+    width: 50%;
+    justify-content: center;
+}
+
+#import-example-data-button {
+
+}
+
+@media screen and (max-width: 768px) {
+    .option-buttons-container button {
+        width: 100%;
+    }
+}

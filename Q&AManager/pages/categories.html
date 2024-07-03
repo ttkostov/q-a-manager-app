@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,
+                   initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet"/>
+    <link href="../assets/styles/global_stylesheet.css"
+          rel="stylesheet">
+    <link href="../assets/styles/navigation_stylesheet.css"
+          rel="stylesheet">
+    <link href="../assets/styles/accordion_stylesheet.css"
+          rel="stylesheet">
+    <link href="../assets/styles/dialog_stylesheet.css"
+          rel="stylesheet">
+    <link href="../assets/styles/manage_stylesheet.css"
+          rel="stylesheet">
+    <title>Q&A Manager | Categories</title>
+    <link rel="icon" type="image/png" href="../assets/icons/android-chrome-512x512.png">
+
+</head>
+<body>
+<nav id="navigation">
+</nav>
+
+<div id="page-content">
+    <div class="option-buttons-container">
+        <button class="global-button" id="add-entry-button">
+            <span class="material-symbols-outlined">add_box</span>
+            Add Category
+        </button>
+        <button class="global-button" id="delete-all-entries-button">
+            <span class="material-symbols-outlined">delete_forever</span>
+            Delete all entries
+        </button>
+    </div>
+
+</div>
+<dialog class="global-dialog" id="manage-category-dialog">
+    <h3 id="manage-category-dialog-heading"></h3>
+    <form class="dialog-content" id="dialog-form">
+        <div class="dialog-form-container">
+
+            <div class="dialog-form-element-container">
+                <label for=id>ID</label>
+                <input type="text" placeholder="ID is generated automatically" name="id" id="category-id-input-field" disabled>
+            </div>
+
+            <div class="dialog-form-element-container">
+                <label for=name>Category Name</label>
+                <input type="text" placeholder="Enter Category Name" name="name" id="category-name-input-field" required>
+            </div>
+
+            <div class="dialog-form-element-container">
+                <label for="color">Color</label>
+                <input type="color" name="color" id="category-color-input-field" required>
+            </div>
+
+        </div>
+
+        <div class="dialog-buttons-container">
+            <button class="global-button" type="button" id="add-category-save-button">
+                Save
+            </button>
+            <button class="global-button" type="button" id="add-category-cancel-button">
+                Cancel
+            </button>
+        </div>
+    </form>
+
+
+</dialog>
+
+
+<script type='text/javascript' src='../js/tinycolor.js'></script>
+<script type="application/javascript" src="../js/global.js"></script>
+<script type="application/javascript" src="../js/categories.js"></script>
+<script type="application/javascript" src="../js/element-builders.js"></script>
+
+</body>
+</html>

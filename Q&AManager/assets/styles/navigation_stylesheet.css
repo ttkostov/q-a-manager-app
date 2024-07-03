@@ -1,0 +1,99 @@
+/* stylesheet for navigation menu */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.current-page-label {
+    font-weight: normal;
+    font-size: 1.2rem;
+    color: var(--nav-button-hover-color);
+}
+
+ul {
+    display: flex;
+    align-items: center;
+
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+ul li a, ul li span {
+    font-size: 1.2em;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+ul li a:hover, ul li span:hover {
+    color: var(--secondary-color);
+}
+
+.checkbtn {
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+    display: none;
+}
+
+#check {
+    display: none;
+}
+
+
+
+@media (max-width: 768px) {
+    .checkbtn {
+        display: block;
+        order: 1;
+        margin-right: 20px;
+    }
+
+    ul{
+        position: fixed;
+        top: 3.4em;
+        right: -100%;
+        background-color: var(--primary-color);
+        width: 100%;
+        height: 100vh;
+        display : flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s;
+    }
+
+    ul li {
+        margin: 20px 0;
+    }
+
+    ul li a{
+        font-size: 20px;
+    }
+
+    #check:checked ~ ul{
+        right: 0;
+    }
+}
