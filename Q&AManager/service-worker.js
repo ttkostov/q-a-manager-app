@@ -37,12 +37,12 @@ const contentToCache = [
 
 self.addEventListener("install", installEvent => {
     installEvent.waitUntil(
-        caches.open(cacheName).then(cache => {
-            cache.addAll(contentToCache).catch(() => {
-                console.log("Error by installing the app");
-            });
-        })
-    )
+        (async () => {
+            const cache = await caches.open(cacheName);
+            console.log("[Service Worker] Caching all");
+            await cache.addAll(contentToCache);
+        })(),
+    );
 });
 
 self.addEventListener("fetch", fetchEvent => {
