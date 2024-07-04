@@ -15,7 +15,6 @@ async function buildNavigation() {
 
 
         let navigationData = responseObject.nav;
-        console.log(navigationData);
 
         let navElement = document.getElementById('navigation');
 
@@ -57,7 +56,6 @@ async function buildNavigation() {
                 "name": navigationData[i].name,
                 "path": navigationData[i].path
             };
-            console.log(navItem);
             let liElement = document.createElement('li');
             let aElement = document.createElement('a');
             aElement.href = navItem.path;
@@ -124,33 +122,39 @@ let db;
 
 function openDb() {
     console.log("opening database...");
-    let request = indexedDB.open(DB_NAME, DB_VERSION);
-    request.onsuccess = function (evt) {
-        db = this.result;
-        console.log("database opened");
-    }
-    request.onerror = function (evt) {
-        console.error("error when opening the database:", evt.target.errorCode);
-    }
+    return new Promise((resolve, reject) => {
+        let request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onsuccess = function (evt) {
+            db = this.result;
+            console.log("database opened");
+            resolve();
+        }
+        request.onerror = function (evt) {
+            console.error("error when opening the database:", evt.target.errorCode);
+            reject(evt.target.errorCode);
+        }
 
-    request.onupgradeneeded = function (evt) {
-        let qaStore = evt.currentTarget.result.createObjectStore(DB_QA_STORE_NAME, {
-            autoIncrement: true
-        });
+        request.onupgradeneeded = function (evt) {
+            let qaStore = evt.currentTarget.result.createObjectStore(DB_QA_STORE_NAME, {
+                autoIncrement: true
+            });
 
-        //qaStore.createIndex('id', 'id', {unique: true});
-        qaStore.createIndex('question', 'question', {unique: true});
-        qaStore.createIndex('answer', 'answer', {unique: false});
-        qaStore.createIndex('categoryId', 'categoryId', {unique: false});
+            //qaStore.createIndex('id', 'id', {unique: true});
+            qaStore.createIndex('question', 'question', {unique: true});
+            qaStore.createIndex('answer', 'answer', {unique: false});
+            qaStore.createIndex('categoryId', 'categoryId', {unique: false});
 
-        let categoryStore = evt.currentTarget.result.createObjectStore(DB_CATEGORY_STORE_NAME, {
-            autoIncrement: true
-        });
+            let categoryStore = evt.currentTarget.result.createObjectStore(DB_CATEGORY_STORE_NAME, {
+                autoIncrement: true
+            });
 
-        //  categoryStore.createIndex('id', 'id', {unique: true});
-        categoryStore.createIndex('name', 'id', {unique: true});
-        categoryStore.createIndex('color', 'id', {unique: true});
-    };
+            //  categoryStore.createIndex('id', 'id', {unique: true});
+            categoryStore.createIndex('name', 'id', {unique: true});
+            categoryStore.createIndex('color', 'id', {unique: true});
+            resolve();
+        };
+    })
+
 }
 
 /**
@@ -200,96 +204,6 @@ function clearCategoriesObjectStore(displayListEntriesAfter) {
     request.onerror = function (evt) {
         // todo display message for failure
     }
-}
-
-/**
- * @param {IDBObjectStore=} store the store to be used
- * @param {boolean=} displayOptions 1 when the option buttons should be displayed, 0 otherwise
- */
-// todo delete if not used
-function displayQAsList(store, displayOptions) {
-    console.log('displaying Q&As list...');
-
-    if (typeof (store) === 'undefined') {
-        store = getObjectStore(DB_QA_STORE_NAME, 'readonly');
-    }
-
-    let pageContentElement = document.getElementById('page-content');
-    // clear previous content
-    // if on manage or categories page don't remove add button
-    if (displayOptions) {
-        let manageOptionsButtonContainerElement = document.getElementsByClassName("option-buttons-container")[0];
-        while (manageOptionsButtonContainerElement.nextSibling) {
-            pageContentElement.removeChild(manageOptionsButtonContainerElement.nextSibling);
-        }
-    } else {
-        pageContentElement.innerHTML = '';
-    }
-
-    let numberOfEntriesRequest = store.count();
-    let numberOfEntries = -1;
-
-
-    let h2Element = document.createElement('h2');
-    let pElement = document.createElement('p');
-    let aElement = document.createElement('a');
-
-    numberOfEntriesRequest.onsuccess = function (evt) {
-        numberOfEntries = evt.target.result;
-        if (numberOfEntries === 0) {
-            h2Element.innerHTML = 'No entries found in the database.';
-            if (displayOptions) {
-                pElement.innerHTML = 'Please use the button to add Q&As or import an example set of data';
-                // todo add link here for the import of example data
-
-                let deleteQaButtonElement = document.getElementById("delete-all-entries-button");
-                deleteQaButtonElement.disabled = true;
-            } else {
-                aElement.innerText = 'Manage';
-                aElement.href = './manage.html'
-                pElement.innerHTML = 'Please go to the ';
-                pElement.appendChild(aElement);
-                pElement.innerHTML = pElement.innerHTML + ' page to add Q&As';
-            }
-
-            pageContentElement.appendChild(h2Element);
-            pageContentElement.appendChild(pElement);
-
-            return;
-        }
-    }
-    numberOfEntriesRequest.onerror = function (evt) {
-        h2Element.innerHTML = 'Error when reading the database:';
-        pElement.innerHTML = this.error;
-
-        pageContentElement.appendChild(h2Element);
-        pageContentElement.appendChild(pElement);
-    }
-
-
-    // request data from db
-    let request = store.openCursor();
-    request.onsuccess = function (evt) {
-        let cursor = evt.target.result;
-
-        // If the cursor is pointing at something, ask for the data
-        if (cursor) {
-            let key = cursor.key;
-            let idbRequest = store.get(key);
-            idbRequest.onsuccess = function (evt) {
-                let value = evt.target.result;
-                if (displayOptions) {
-                    let deleteQaButtonElement = document.getElementById("delete-all-entries-button");
-                    deleteQaButtonElement.disabled = false;
-                }
-                buildQuestionAccordion(key, value, displayOptions);
-            };
-            cursor.continue()
-        }
-
-    };
-    console.log('Q&As list displayed');
-
 }
 
 

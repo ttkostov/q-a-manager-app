@@ -1,15 +1,13 @@
 buildNavigation().then(
     () => {
         console.log("navigation loaded");
-        openDb();
-        setTimeout(function () {
-            let store = getObjectStore(DB_CATEGORY_STORE_NAME, "readonly");
-            //displayQAsList(store, true);
-            displayListOfEntries(store, false, false, "");
-            //addEventListeners();
-            addCategoriesEventListeners();
-
-        }, 10);
+        openDb().then(
+            () => {
+                let store = getObjectStore(DB_CATEGORY_STORE_NAME, "readonly");
+                displayListOfEntries(store, false, false, "");
+                addCategoriesEventListeners();
+            }
+        );
     }
 );
 

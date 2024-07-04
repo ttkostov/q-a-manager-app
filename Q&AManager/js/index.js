@@ -2,18 +2,20 @@
 buildNavigation().then(
     () => {
         console.log("navigation loaded");
-        openDb();
-        setTimeout(function () {
+        openDb().then(
+            () => {
+                let store = getObjectStore(DB_QA_STORE_NAME, "readonly");
 
-            let store = getObjectStore(DB_QA_STORE_NAME, "readonly");
-            //displayQAsList(store, false);
-            displayListOfEntries(store, true, false, "");
-            addSearchEventListener(false);
-            if ("serviceWorker" in navigator) {
-                console.log(navigator.serviceWorker);
-               // navigator.serviceWorker.register("../service-worker.js");
+                displayListOfEntries(store, true, false, "");
+                addSearchEventListener(false);
+                if ("serviceWorker" in navigator) {
+                    navigator.serviceWorker.register("../service-worker.js");
+                }
             }
-
-        }, 10);
+        ).catch(
+            (reason) => {
+                console.log(reason);
+            }
+        );
     }
 );

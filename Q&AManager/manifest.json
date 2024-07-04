@@ -1,7 +1,7 @@
 {
   "name": "Q&A Manager",
   "short_name": "Q&A",
-  "description": "Never lose track of your questions and answers again!\nThis PWA lets you manage your Q&As efficiently, all offline!  Organize your knowledge with:\n\nEasy Q&A creation: Add questions and answers quickly.\nCategorization: Keep things organized with custom categories.\nOffline access: Your data is always available, even without internet.\nOptional backup: Connect to a remote server for secure backups (optional).",
+  "description": "This PWA lets you manage your Q&As efficiently!\n\u2690Easy Q&A creation: Add questions and answers quickly.\n\u2690Categorization: Keep things organized with custom categories.\n\u2690ffline access: Data is always available, even without internet.\n\u2690Backup: Connect to a remote server for backups (optional).",
   "author": "Toni Kostov",
   "start_url": "/",
   "theme_color": "#071952",

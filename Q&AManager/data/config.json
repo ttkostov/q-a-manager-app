@@ -1,7 +1,4 @@
 {
   "serverAddress": "127.0.0.1",
-  "serverPort": "8081",
-  "secure": "false",
-  "username": "student",
-  "password": "thws"
+  "serverPort": "8081"
 }
