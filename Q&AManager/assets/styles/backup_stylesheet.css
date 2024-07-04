@@ -27,6 +27,12 @@
 
 }
 
+#server-info-container button {
+    margin-bottom: 1em;
+    width: 50%;
+
+}
+
 @media screen and (max-width: 768px) {
     .option-buttons-container button {
         width: 100%;
@@ -35,4 +41,5 @@
     #server-info-container {
         width: 100%;
     }
+
 }

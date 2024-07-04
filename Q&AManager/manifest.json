@@ -1,0 +1,62 @@
+{
+  "name": "Q&A Manager",
+  "short_name": "Q&A",
+  "description": "Never lose track of your questions and answers again!\nThis PWA lets you manage your Q&As efficiently, all offline!  Organize your knowledge with:\n\nEasy Q&A creation: Add questions and answers quickly.\nCategorization: Keep things organized with custom categories.\nOffline access: Your data is always available, even without internet.\nOptional backup: Connect to a remote server for secure backups (optional).",
+  "author": "Toni Kostov",
+  "start_url": "/",
+  "theme_color": "#071952",
+  "background_color": "#EBF4F6",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "./assets/icons/android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./assets/img/screenshot_16_9_manage.png",
+      "type": "image/png",
+      "sizes": "1280x720",
+      "form_factor": "wide",
+      "label": "Managing Q&As"
+    },
+    {
+      "src": "./assets/img/screenshot_16_9_categories.png",
+      "type": "image/png",
+      "sizes": "1280x720",
+      "form_factor": "wide",
+      "label": "Managing Categories"
+    },
+    {
+      "src": "./assets/img/screenshot_16_9_server.png",
+      "type": "image/png",
+      "sizes": "1280x720",
+      "form_factor": "wide",
+      "label": "Backup Server Connectivity"
+    },
+    {
+      "src": "./assets/img/screenshot_phone_index.png",
+      "type": "image/png",
+      "sizes": "750x1334",
+      "form_factor": "narrow",
+      "label": "List of Q&A entries"
+    },
+    {
+      "src": "./assets/img/screenshot_phone_server.png",
+      "type": "image/png",
+      "sizes": "750x1334",
+      "form_factor": "narrow",
+      "label": "Backup Server Connectivity"
+    },
+    {
+      "src": "./assets/img/screenshot_tablet.png",
+      "type": "image/png",
+      "sizes": "2048x2732",
+      "label": "Managing Q&As"
+
+    }
+  ]
+}

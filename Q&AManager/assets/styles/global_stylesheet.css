@@ -3,7 +3,7 @@
 /* color variables */
 
 :root {
-    --bg-color-light: white;
+    --bg-color: white;
     --primary-color: #071952;
     --secondary-color: #088395;
     --nav-button-hover-color: #37B7C3;
@@ -17,6 +17,8 @@
     --delete-button-bg-hover-color: #5d0000;
     --connection-failed-color: darkred;
     --connection-succeeded-color: darkgreen;
+    --font-color: black;
+    --dialog-input-bg: #f3fdff;
 
 
     --global-button-bg-color: #EBF4F6;
@@ -24,6 +26,8 @@
 }
 
 body {
+    background-color: var(--bg-color);
+    color: var(--font-color);
     font-size: 1em;
 }
 
@@ -101,5 +105,16 @@ body {
 
     #delete-all-entries-button {
         flex-grow: 1;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #102C57;
+        --font-color: white;
+        --dialog-input-bg: #28516e;
+
+        --connection-failed-color: indianred;
+        --connection-succeeded-color: lightgreen;
     }
 }
