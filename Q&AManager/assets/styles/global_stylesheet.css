@@ -15,7 +15,8 @@
     --delete-button-bg-color: darkred;
     --delete-button-disabled-bg-color: #ee6f6f;
     --delete-button-bg-hover-color: #5d0000;
-
+    --connection-failed-color: darkred;
+    --connection-succeeded-color: darkgreen;
 
 
     --global-button-bg-color: #EBF4F6;

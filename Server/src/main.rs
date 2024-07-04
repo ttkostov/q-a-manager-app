@@ -3,9 +3,13 @@ use serde::{Deserialize, Serialize};
 use std::{fs, io::Result};
 use chrono::{Local, DateTime, Utc};
 use const_format::formatcp;
-
+use http::header::{HeaderValue};
+use http::header::LINK;
+use actix_cors::Cors;
 
 // Define a base directory for backups
+const SERVER_ADDRESS: &str = "127.0.0.1:8081";
+const SERVER_BASE_URL: &str = formatcp!("http://{}", SERVER_ADDRESS);
 const BACKUP_DIR: &str = "./backup";
 const BACKUP_FILE_NAME: &str = "latest.json";
 
@@ -30,10 +34,11 @@ struct QA {
 }
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 struct Backup {
     categories: Vec<Category>,
     qas: Vec<QA>,
-    last_updated: Option<DateTime<Utc>>
+    last_updated: Option<DateTime<Utc>>,
 }
 
 impl Default for Backup {
@@ -41,9 +46,20 @@ impl Default for Backup {
         Self {
             categories: vec![],
             qas: vec![],
-            last_updated: Some(Utc::now())
+            last_updated: Some(Utc::now()),
         }
     }
+}
+
+fn build_link_header_value(rel: &str) -> String {
+    format!("<{}{}> rel=\"{}\"", SERVER_BASE_URL, ROUTE_PATH, rel)
+}
+
+async fn get_dispatcher() -> impl Responder {
+    HttpResponse::Ok()
+        .append_header(("Link", build_link_header_value("get-entries")))
+        .append_header(("Link", build_link_header_value("post-entries")))
+        .body("")
 }
 
 // handler to retrieve the latest entry
@@ -56,7 +72,7 @@ async fn get_entries() -> impl Responder {
 }
 
 // handler to save new entry
-async fn save_entry(entry: web::Json<Backup>) -> impl Responder {
+async fn post_entries(entry: web::Json<Backup>) -> impl Responder {
     let now = Utc::now(); // Current UTC time
 
     // convert web::Json<Backup> into Backup
@@ -65,7 +81,7 @@ async fn save_entry(entry: web::Json<Backup>) -> impl Responder {
 
     // serialize and save the updated backup
     match fs::write(BACKUP_FILE_PATH, serde_json::to_string(&new_backup).unwrap()) {
-        Ok(_) => HttpResponse::Ok().body(format!("Backup saved at {}", now)),
+        Ok(_) => HttpResponse::Created().body(format!("Backup saved at {}", now)),
         Err(_) => HttpResponse::InternalServerError().body("Error saving backup"),
     }
 }
@@ -74,10 +90,13 @@ async fn save_entry(entry: web::Json<Backup>) -> impl Responder {
 async fn main() -> Result<()> {
     HttpServer::new(|| {
         App::new()
+            .wrap(Cors::permissive().allow_any_method())
+            .wrap(Cors::permissive().allow_any_header())
+            .route("/", web::get().to(get_dispatcher))
             .route(ROUTE_PATH, web::get().to(get_entries))
-            .route(ROUTE_PATH, web::post().to(save_entry))
+            .route(ROUTE_PATH, web::post().to(post_entries))
     })
-        .bind("127.0.0.1:8080")?
+        .bind("127.0.0.1:8081")?
         .run()
         .await?;
 

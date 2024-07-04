@@ -15,8 +15,24 @@
 
 }
 
+#server-info-container {
+    width: 50%;
+}
+
+
+.server-data-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
 @media screen and (max-width: 768px) {
     .option-buttons-container button {
+        width: 100%;
+    }
+
+    #server-info-container {
         width: 100%;
     }
 }

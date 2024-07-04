@@ -32,176 +32,289 @@ function addBackupEventListeners() {
     }
     let downloadDatSetButtonElement = document.getElementById("download-data-set-button");
     downloadDatSetButtonElement.onclick = function () {
-        exportDataSetAsFile();
+        getDataSet().then((data) => {
+            let date = generateDateAndTimeString();
+
+            //create json file
+            const file = new File([JSON.stringify(data)], '', {type: 'application/json'});
+
+            //create temporary url for the json object
+            let tempUrl = URL.createObjectURL(file);
+
+            let aTagElement = document.createElement("a");
+            aTagElement.setAttribute("href", tempUrl);
+            aTagElement.setAttribute("download", 'backup-' + date);
+            document.body.appendChild(aTagElement);
+            aTagElement.click(); //click the tag so that the download begins
+            aTagElement.remove();  //remove the tag after the file is downloaded
+        })
+            .catch(function (err) {
+                alert(err);
+            });
+
     }
+
 
     let connectToBackupServerButtonElement = document.getElementById("connect-to-backup-server-button");
-
-
+    connectToBackupServerButtonElement.onclick = function () {
+        getDispatcher();
+    }
 }
-
-function exportDataSetAsFile() {
-
-    let categoriesStore = getObjectStore(DB_CATEGORY_STORE_NAME, "readonly");
-    let qasStore = getObjectStore(DB_QA_STORE_NAME, "readonly");
-
-
-    let categoriesContent;
-    let qasContent;
-
-    getDataAsArray(DB_CATEGORY_STORE_NAME)
-        .then(function (catResult) {
-            categoriesContent = catResult;
-
-            getDataAsArray(DB_QA_STORE_NAME)
-                .then(function (qaResult) {
-                    qasContent = qaResult;
-                    let jsonObject = {
-                        "categories": categoriesContent,
-                        "qas": qasContent
-                    };
-
-
-                    // get date & time for file name
-                    let date = generateDateAndTimeString();
-
-                    //create json file
-                    const file = new File([JSON.stringify(jsonObject)], '', { type: 'application/json' });
-
-                    //create temporary url for the json object
-                    let tempUrl = URL.createObjectURL(file);
-
-                    let aTagElement = document.createElement("a");
-                    aTagElement.setAttribute("href", tempUrl);
-                    aTagElement.setAttribute("download", 'backup-' + date);
-                    document.body.appendChild(aTagElement);
-                    aTagElement.click(); //click the tag so that the download begins
-                    aTagElement.remove();  //remove the tag after the file is downloaded
-                })
-        });
-
-
-}
-
-
-/**
- * returns the data from the store as an array
- * @param{string} storeName
- */
-function getDataAsArray(storeName) {
-    let store = getObjectStore(storeName, "readonly");
-
-
-    return new Promise(function (resolve, reject) {
-        let getAllRequest = store.getAll();
-        getAllRequest.onsuccess = function (evt) {
-            let allData = getAllRequest.result;
-
-            let getAllKeysRequest = store.getAllKeys();
-            getAllKeysRequest.onsuccess = function (evt) {
-                let keys = getAllKeysRequest.result;
-                let result = [];
-                for (let i = 0; i < keys.length; i++) {
-                    let obj;
-                    if (storeName === DB_QA_STORE_NAME) {
-                        obj = {
-                            key: keys[i],
-                            question: allData[i].question,
-                            answer: allData[i].answer,
-                            categoryId: allData[i].categoryId
-                        };
-                    }
-                    else if (storeName === DB_CATEGORY_STORE_NAME) {
-                        obj = {
-                            key: keys[i],
-                            name: allData[i].name,
-                            color: allData[i].color
-                        };
-                    }
-                    result.push(obj);
-                }
-                resolve(result);
-            }
-
-
-
-        }
-        getAllRequest.onerror = function (evt) {
-            reject(evt.target.error);
-        }
-    })
-
-
-    /*
-    return new Promise(function (resolve, reject) {
-        let values = [];
-        let request = store.openCursor();
-        request.onsuccess = function (evt) {
-
-            let cursor = evt.target.result;
-            if (cursor) {
-                let key = cursor.key;
-                let idbRequest = store.get(key);
-                idbRequest.onsuccess = function (evt) {
-                    let value = evt.target.result;
-                    let obj;
-                    if (storeName === DB_CATEGORY_STORE_NAME) {
-                        obj = {
-                            "id": key,
-                            "name": value.name,
-                            "color": value.color
-                        }
-                    } else if (storeName === DB_QA_STORE_NAME) {
-                        obj = {
-                            "id": key,
-                            "question": value.name,
-                            "answer": value.answer,
-                            "categoryId": value.categoryId
-                        }
-                    }
-                    values.push(obj);
-
-                }
-                cursor.continue();
-            }
-
-        }
-        resolve(values);
-        request.onerror = function (evt) {
-            reject(evt);
-        }
-    })
-
-
+    /**
+     * gets all data and saves it to a file
      */
+    function getDataSet() {
 
-}
+        let categoriesStore = getObjectStore(DB_CATEGORY_STORE_NAME, "readonly");
+        let qasStore = getObjectStore(DB_QA_STORE_NAME, "readonly");
 
-async function importExampleData() {
-    let response = await fetch('../data/example-questions.json');
 
-    let responseObject = await response.json();
+        let categoriesContent;
+        let qasContent;
 
-    let qasData = responseObject.qas;
-    let categoriesData = responseObject.categories;
+        return new Promise((resolve, reject) => {
+            getDataAsArray(DB_CATEGORY_STORE_NAME)
+                .then(function (catResult) {
+                    categoriesContent = catResult;
 
-    for (let category of categoriesData) {
-        addCategoryEntry(category.name, category.color, false, category.key)
+                    getDataAsArray(DB_QA_STORE_NAME)
+                        .then(function (qaResult) {
+                            qasContent = qaResult;
+                            let jsonObject = {
+                                "categories": categoriesContent,
+                                "qas": qasContent
+                            };
+
+                            let jsonObjectAsString = JSON.stringify(jsonObject);
+                            resolve(jsonObjectAsString);
+                        })
+                        .catch(function (err) {
+                            reject(err);
+                        })
+                });
+        })
+
+
     }
 
-    for (let qa of qasData) {
-        addQAEntry(qa.question, qa.answer, qa.categoryId, false, qa.key);
+
+    /**
+     * returns the data from the store as an array
+     * @param{string} storeName
+     */
+    function getDataAsArray(storeName) {
+        let store = getObjectStore(storeName, "readonly");
+
+
+        return new Promise(function (resolve, reject) {
+            let getAllRequest = store.getAll();
+            getAllRequest.onsuccess = function (evt) {
+                let allData = getAllRequest.result;
+
+                let getAllKeysRequest = store.getAllKeys();
+                getAllKeysRequest.onsuccess = function (evt) {
+                    let keys = getAllKeysRequest.result;
+                    let result = [];
+                    for (let i = 0; i < keys.length; i++) {
+                        let obj;
+                        if (storeName === DB_QA_STORE_NAME) {
+                            obj = {
+                                key: keys[i],
+                                question: allData[i].question,
+                                answer: allData[i].answer,
+                                categoryId: allData[i].categoryId
+                            };
+                        } else if (storeName === DB_CATEGORY_STORE_NAME) {
+                            obj = {
+                                key: keys[i],
+                                name: allData[i].name,
+                                color: allData[i].color
+                            };
+                        }
+                        result.push(obj);
+                    }
+                    resolve(result);
+                }
+
+
+            }
+            getAllRequest.onerror = function (evt) {
+                reject(evt.target.error);
+            }
+        })
     }
 
-    console.log(qasData);
-    console.log(categoriesData);
+    async function importExampleData() {
+        let response = await fetch('../data/example-questions.json');
 
-}
+        let responseObject = await response.json();
 
-/**
- * @returns {string}
- */
-function generateDateAndTimeString() {
+        let qasData = responseObject.qas;
+        let categoriesData = responseObject.categories;
 
-    return (new Date()).toISOString().slice(0, 19).replace(":", "-").replace("T", "-").replace(":", "-");
-}
+        for (let category of categoriesData) {
+            addCategoryEntry(category.name, category.color, false, category.key)
+        }
+
+        for (let qa of qasData) {
+            addQAEntry(qa.question, qa.answer, qa.categoryId, false, qa.key);
+        }
+
+        console.log(qasData);
+        console.log(categoriesData);
+
+    }
+
+    /**
+     * @returns {string}
+     */
+    function generateDateAndTimeString() {
+
+        return (new Date()).toISOString().slice(0, 19).replace(":", "-").replace("T", "-").replace(":", "-");
+    }
+
+    function connectionSucceeded() {
+        let serverInfoContainerElement = document.getElementById('server-info-container');
+
+        //clear previous content
+        serverInfoContainerElement.innerHTML = '';
+
+        let h2Element = document.createElement("h2");
+        h2Element.innerHTML = 'Connection to the server established';
+        h2Element.style.color = 'var(--connection-succeeded-color)';
+
+        serverInfoContainerElement.appendChild(h2Element);
+
+        if (getEntriesLink !== "") {
+            getEntries();
+        }
+    }
+
+    function noDataOnserver(msg) {
+        let serverInfoContainerElement = document.getElementById('server-info-container');
+
+        let pElement = document.createElement("p");
+        pElement.innerText = msg;
+        serverInfoContainerElement.appendChild(pElement);
+
+        if (postEntriesLink !== "") {
+            addMakeBackupButton();
+        }
+    }
+
+    function addMakeBackupButton() {
+        let serverInfoContainerElement = document.getElementById('server-info-container');
+
+        let makeBackupButtonElement = document.createElement("button");
+        makeBackupButtonElement.className = "global-button";
+        let spanElement = document.createElement("span");
+        spanElement.innerText = "cloud_upload";
+        spanElement.className = "material-symbols-outlined";
+        makeBackupButtonElement.appendChild(spanElement);
+
+        makeBackupButtonElement.innerHTML += "Upload New Backup";
+
+        serverInfoContainerElement.appendChild(makeBackupButtonElement);
+
+        makeBackupButtonElement.onclick = function () {
+            if (confirm('This will replace the current backup on the server (if available).\n' +
+                'Do you want to upload the new backup to the server?')) {
+                postEntries();
+            }
+
+        }
+    }
+
+    function connectionFailed() {
+        let serverInfoContainerElement = document.getElementById('server-info-container');
+
+        //clear previous content
+        serverInfoContainerElement.innerHTML = '';
+
+        let h2Element = document.createElement("h2");
+        h2Element.innerHTML = 'Connection to the server failed';
+        h2Element.style.color = 'var(--connection-failed-color)';
+
+        serverInfoContainerElement.appendChild(h2Element);
+
+        addTryAgainButton()
+    }
+
+    function addTryAgainButton() {
+        let serverInfoContainerElement = document.getElementById('server-info-container');
+
+        let tryAgainButtonElement = document.createElement("button");
+        tryAgainButtonElement.className = "global-button";
+        let spanElement = document.createElement("span");
+        spanElement.innerText = "restart_alt";
+        spanElement.className = "material-symbols-outlined";
+        tryAgainButtonElement.appendChild(spanElement);
+
+        tryAgainButtonElement.innerHTML += "Try Again";
+        serverInfoContainerElement.appendChild(tryAgainButtonElement);
+
+        tryAgainButtonElement.onclick = function () {
+            getDispatcher();
+        }
+    }
+
+    /**
+     * displays backup details and adds use backup button
+     */
+    function backupFound(responseObject) {
+        let serverInfoContainerElement = document.getElementById('server-info-container');
+
+        let pElement = document.createElement("p");
+        let date = new Date(Date.parse(responseObject.lastUpdated));
+        pElement.innerText = 'Backup from ' + date + ' found.';
+        pElement.style.fontWeight = 'bold';
+
+        serverInfoContainerElement.appendChild(pElement);
+        addUseBackupButton(responseObject);
+
+        if (postEntriesLink !== "") {
+            addMakeBackupButton();
+        }
+    }
+
+    function addUseBackupButton(backupObject) {
+        let serverInfoContainerElement = document.getElementById('server-info-container');
+
+        let useBackupButtonElement = document.createElement('button');
+        useBackupButtonElement.className = 'global-button';
+        let spanElement = document.createElement("span");
+        spanElement.innerText = "cloud_download";
+        spanElement.className = "material-symbols-outlined";
+        useBackupButtonElement.appendChild(spanElement);
+        useBackupButtonElement.innerHTML += 'Use this backup';
+
+        serverInfoContainerElement.appendChild(useBackupButtonElement);
+
+        useBackupButtonElement.onclick = function () {
+            if (confirm('This will replace the current the data set.\n' +
+                'Please consider making a backup or downloading the current data set.\n' +
+                'Do you want to import this backup?'
+            )) {
+                importBackupToDatabase(backupObject);
+            }
+        }
+
+    }
+
+    function importBackupToDatabase(backupObject) {
+
+        clearCategoriesObjectStore(false);
+        clearQAsObjectStore(false);
+
+        for (let category of backupObject.categories) {
+            addCategoryEntry(category.name, category.color, false, category.key);
+        }
+
+        for (let qa of backupObject.qas) {
+            addQAEntry(qa.question, qa.answer, qa.categoryId, false, qa.key);
+        }
+
+        alert("Backup successfully imported!");
+
+        getDispatcher();
+    }
