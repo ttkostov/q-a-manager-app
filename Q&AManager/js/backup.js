@@ -3,7 +3,6 @@ buildNavigation().then(
         console.log("navigation loaded");
         openDb().then(
             () => {
-                let store = getObjectStore(DB_CATEGORY_STORE_NAME, "readonly");
                 addBackupEventListeners();
             }
         );
@@ -64,10 +63,6 @@ function addBackupEventListeners() {
      */
     function getDataSet() {
 
-        let categoriesStore = getObjectStore(DB_CATEGORY_STORE_NAME, "readonly");
-        let qasStore = getObjectStore(DB_QA_STORE_NAME, "readonly");
-
-
         let categoriesContent;
         let qasContent;
 
@@ -107,11 +102,11 @@ function addBackupEventListeners() {
 
         return new Promise(function (resolve, reject) {
             let getAllRequest = store.getAll();
-            getAllRequest.onsuccess = function (evt) {
+            getAllRequest.onsuccess = function () {
                 let allData = getAllRequest.result;
 
                 let getAllKeysRequest = store.getAllKeys();
-                getAllKeysRequest.onsuccess = function (evt) {
+                getAllKeysRequest.onsuccess = function () {
                     let keys = getAllKeysRequest.result;
                     let result = [];
                     for (let i = 0; i < keys.length; i++) {

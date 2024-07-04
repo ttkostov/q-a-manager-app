@@ -98,7 +98,7 @@ function deleteAllQuestionsWithCategory(category, categoryKey) {
     numberOfEntriesRequest.onsuccess = function (evt) {
         let numberOfEntries = evt.target.result;
         if (numberOfEntries === 0) {
-            return;
+            return false;
         }
     }
     numberOfEntriesRequest.onerror = function (evt) {

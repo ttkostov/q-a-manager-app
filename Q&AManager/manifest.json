@@ -3,7 +3,7 @@
   "short_name": "Q&A",
   "description": "This PWA lets you manage your Q&As efficiently!\n\u2690Easy Q&A creation: Add questions and answers quickly.\n\u2690Categorization: Keep things organized with custom categories.\n\u2690ffline access: Data is always available, even without internet.\n\u2690Backup: Connect to a remote server for backups (optional).",
   "author": "Toni Kostov",
-  "start_url": "/",
+  "start_url": "/Q&AManager/pages/index.html",
   "theme_color": "#071952",
   "background_color": "#EBF4F6",
   "display": "standalone",

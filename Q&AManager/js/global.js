@@ -356,7 +356,6 @@ function deleteQAEntry(key) {
  *
  */
 function displayListOfEntries(store, isQA, displayOptions, searchText) {
-    let targetString = isQA ? 'Q&A' : 'Category';
     let targetStringInPlural = isQA ? 'Q&As' : 'Categories'
 
     let decide = (isQA && displayOptions) || !isQA; // manage or categories pages
