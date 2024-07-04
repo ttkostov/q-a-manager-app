@@ -1,13 +1,8 @@
 mod models;
-
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
-use serde::{Deserialize, Serialize};
 use std::{fs, io::Result};
-use chrono::{Local, DateTime, Utc};
-
+use chrono::{Utc};
 use const_format::formatcp;
-use http::header::{HeaderValue};
-use http::header::LINK;
 use actix_cors::Cors;
 use crate::models::Backup;
 
@@ -34,7 +29,7 @@ async fn get_entries() -> impl Responder {
     // read file
     match fs::read_to_string(&BACKUP_FILE_PATH) {
         Ok(contents) => HttpResponse::Ok().content_type("application/json").body(contents),
-        Err(_) => HttpResponse::Ok().body("No backup entries on the server"), // Return empty backup if file doesn't exist
+        Err(_) => HttpResponse::Ok().body("No backup entries on the server"),
     }
 }
 
@@ -72,4 +67,71 @@ async fn main() -> Result<()> {
         .await?;
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use actix_web::{test, App};
+    use std::fs;
+
+    #[actix_rt::test]
+    async fn test_get_dispatcher() {
+        let app = test::init_service(App::new().configure(config_routes)).await;
+        let req = test::TestRequest::get().uri("/").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert!(resp.status().is_success());
+    }
+
+    #[actix_rt::test]
+    async fn test_get_entries_no_file() {
+        // backup file does not exist
+        let _ = fs::remove_file(BACKUP_FILE_PATH);
+
+        let app = test::init_service(App::new().configure(config_routes)).await;
+        let req = test::TestRequest::get().uri(ROUTE_PATH).to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert!(resp.status().is_success());
+
+    }
+
+    #[actix_rt::test]
+    async fn test_get_entries_with_file() {
+        // dummy backup file
+        let backup = Backup::default();
+        let _ = fs::create_dir_all(BACKUP_DIR);
+        let _ = fs::write(BACKUP_FILE_PATH, serde_json::to_string(&backup).unwrap());
+
+        let app = test::init_service(App::new().configure(config_routes)).await;
+        let req = test::TestRequest::get().uri(ROUTE_PATH).to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert!(resp.status().is_success());
+        let body = test::read_body(resp).await;
+        assert!(serde_json::from_slice::<Backup>(&body).is_ok());
+    }
+
+    #[actix_rt::test]
+    async fn test_post_entries() {
+        let backup = Backup::default();
+
+        let app = test::init_service(App::new().configure(config_routes)).await;
+        let req = test::TestRequest::post()
+            .uri(ROUTE_PATH)
+            .set_json(&backup)
+            .to_request();
+
+        let resp = test::call_service(&app, req).await;
+
+        assert!(resp.status().is_success());
+        assert_eq!(resp.status(), 201);
+
+        // file is written and content matches
+        let content = fs::read_to_string(BACKUP_FILE_PATH).expect("Failed to read backup file");
+        let saved_backup: Backup = serde_json::from_str(&content).expect("Invalid JSON in backup file");
+        assert_eq!(saved_backup.qas, backup.qas);
+        assert_eq!(saved_backup.categories, backup.categories);
+    }
 }

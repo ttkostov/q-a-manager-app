@@ -2,6 +2,8 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
+#[derive(PartialEq)]
+#[derive(Debug)]
 pub struct Category {
     pub key: i32,
     pub name: String,
@@ -10,6 +12,8 @@ pub struct Category {
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[derive(PartialEq)]
+#[derive(Debug)]
 pub struct QA {
     pub key: i32,
     pub question: String,
