@@ -7,7 +7,6 @@ const contentToCache = [
     "./assets/img/screenshot_phone_index.png",
     "./assets/img/screenshot_phone_server.png",
     "./assets/img/screenshot_tablet.png",
-    "./assets/styles/screenshot_tablet.png",
     "./assets/styles/accordion_stylesheet.css",
     "./assets/styles/backup_stylesheet.css",
     "./assets/styles/dialog_stylesheet.css",
@@ -18,7 +17,6 @@ const contentToCache = [
     "./data/config.json",
     "./data/example-questions.json",
     "./data/navigation.json",
-    "./data/translations.json",
     "./js/backup.js",
     "./js/backup-client.js",
     "./js/categories.js",
@@ -26,13 +24,12 @@ const contentToCache = [
     "./js/global.js",
     "./js/index.js",
     "./js/manage.js",
-    "./js/service-worker.js",
-    "./js/test-indexeddb.js",
     "./js/tinycolor.js",
     "./pages/backup.html",
     "./pages/categories.html",
     "./pages/index.html",
-    "./pages/manage.html"
+    "./pages/manage.html",
+    "./manifest.json"
 ];
 
 self.addEventListener("install", installEvent => {
