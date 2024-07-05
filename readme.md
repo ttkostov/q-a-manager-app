@@ -1,5 +1,5 @@
 # Q&A Manager
-Q&A Manager is a Progressive Web Application (PWA) designed to manage Q&A entries for university purposes. Users can add Q&As, create categories for them, and use a backup server written in Rust to ensure data persistence. This application is built with HTML, CSS, and vanilla JavaScript, and utilizes the TinyColor library and Google Fonts icons.
+Q&A Manager is a Progressive Web Application (PWA) designed to manage Q&A entries. Users can add Q&As, create categories for them, and use a backup server to ensure data persistence. This application is built with HTML, CSS, and JavaScript.
 
 ## Features
 - Add, edit, and delete Q&A entries.
