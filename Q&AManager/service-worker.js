@@ -11,7 +11,6 @@ const contentToCache = [
     "./assets/styles/backup_stylesheet.css",
     "./assets/styles/dialog_stylesheet.css",
     "./assets/styles/global_stylesheet.css",
-    "./assets/styles/manage_stylesheet.css",
     "./assets/styles/navigation_stylesheet.css",
     "./assets/styles/search_stylesheet.css",
     "./data/config.json",

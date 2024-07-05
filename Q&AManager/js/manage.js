@@ -2,12 +2,12 @@ let atLeastOneCategory = false;
 
 buildNavigation().then(
     () => {
-        console.log("navigation loaded");
+        console.log('navigation loaded');
         openDb().then(
             () => {
-                let store = getObjectStore(DB_QA_STORE_NAME, "readonly");
+                let store = getObjectStore(DB_QA_STORE_NAME, 'readonly');
 
-                displayListOfEntries(store, true, true,"");
+                displayListOfEntries(store, true, true,'');
                 addEventListeners();
                 addSearchEventListener(true);
             }
@@ -51,7 +51,7 @@ function saveQaAndClose() {
     let categoryInputElement = document.getElementById('category-input-field')
     for(let child of categoryInputElement.children) {
         if (child.innerText === categoryInputElement.value) {
-            categoryInput = +child.getAttribute("category-id");
+            categoryInput = +child.getAttribute('category-id');
         }
     }
 
@@ -97,7 +97,7 @@ function openEditQADialog(key, object) {
 
     let categoryInput = document.getElementById('category-input-field');
     for(let child of categoryInput.children) {
-        if (+child.getAttribute("category-id") === object.categoryId) {
+        if (+child.getAttribute('category-id') === object.categoryId) {
             categoryInput.value = child.innerText;
         }
     }
@@ -108,30 +108,30 @@ function openEditQADialog(key, object) {
 }
 
 function addEventListeners() {
-    console.log("adding event listeners...");
+    console.log('adding event listeners...');
 
-    let addQaButtonElement = document.getElementById("add-entry-button");
+    let addQaButtonElement = document.getElementById('add-entry-button');
     addQaButtonElement.onclick = function (evt) {
         openAddQADialog();
     }
 
-    let qaModalCancelButton = document.getElementById("add-qa-cancel-button");
+    let qaModalCancelButton = document.getElementById('add-qa-cancel-button');
     qaModalCancelButton.onclick = function (evt) {
         closeManageQADialog();
     }
 
-    let qaModalSaveButton = document.getElementById("add-qa-save-button");
+    let qaModalSaveButton = document.getElementById('add-qa-save-button');
     qaModalSaveButton.onclick = function (evt) {
         saveQaAndClose()
     }
 
-    let deleteAllQasButtonElement = document.getElementById("delete-all-entries-button");
+    let deleteAllQasButtonElement = document.getElementById('delete-all-entries-button');
     deleteAllQasButtonElement.onclick = function (evt) {
         if (confirm('Are you sure you want to clear the database?\nThis action cannot be undone!')) {
             clearQAsObjectStore(true);
         }
     }
-    console.log("event listeners added");
+    console.log('event listeners added');
 
 }
 

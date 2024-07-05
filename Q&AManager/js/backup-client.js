@@ -1,6 +1,6 @@
 
-let getEntriesLink = "";
-let postEntriesLink = "";
+let getEntriesLink = '';
+let postEntriesLink = '';
 
 
 function fetchConfig() {
@@ -32,7 +32,7 @@ function getDispatcher() {
     fetchConfig().then(function (configData) {
         let url = urlBuilder(configData.serverAddress, configData.serverPort);
         
-        xmlHttp.open("GET", url, true);
+        xmlHttp.open('GET', url, true);
         
         xmlHttp.onerror = function (err) {
             connectionFailed();
@@ -42,7 +42,7 @@ function getDispatcher() {
         xmlHttp.onload = function () {
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
 
-                let relArray = xmlHttp.getResponseHeader("Link").split(',');
+                let relArray = xmlHttp.getResponseHeader('Link').split(',');
                 for (let rel of relArray) {
                     if(rel.includes('get-entries')) {
                         getEntriesLink = extractURLFromResponse(rel)
@@ -67,14 +67,14 @@ function getEntries() {
     let url = new URL(getEntriesLink);
     let xmlHttp = new XMLHttpRequest();
 
-    xmlHttp.open("GET", url, true);
+    xmlHttp.open('GET', url, true);
     xmlHttp.onerror = function (err) {
         connectionFailed();
     }
     xmlHttp.send(null);
     xmlHttp.onload = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-            if(xmlHttp.getResponseHeader("Content-Type") === "application/json") {
+            if(xmlHttp.getResponseHeader('Content-Type') === 'application/json') {
                 let responseObject = JSON.parse(xmlHttp.responseText);
                 backupFound(responseObject);
             }
@@ -93,15 +93,15 @@ function getEntries() {
 function postEntries() {
     getDataSet().then(function (result) {
         if(result === undefined) {
-            alert("No entries found.");
+            alert('No entries found.');
             return false;
         }
         let body = result;
         let url = new URL(postEntriesLink);
         let xmlHttp = new XMLHttpRequest();
 
-        xmlHttp.open("POST", url, true);
-        xmlHttp.setRequestHeader("Content-Type", "application/json");
+        xmlHttp.open('POST', url, true);
+        xmlHttp.setRequestHeader('Content-Type', 'application/json');
         xmlHttp.onerror = function (err) {
             connectionFailed();
         }
@@ -112,7 +112,7 @@ function postEntries() {
                 getDispatcher();
             }
             else {
-                alert("Error when creating database!\nServer Error: " + xmlHttp.status + ", " + xmlHttp.responseText);
+                alert('Error when creating database!\nServer Error: ' + xmlHttp.status + ', ' + xmlHttp.responseText);
                 getDispatcher();
             }
 

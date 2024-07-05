@@ -1,6 +1,6 @@
 buildNavigation().then(
     () => {
-        console.log("navigation loaded");
+        console.log('navigation loaded');
         openDb().then(
             () => {
                 addBackupEventListeners();
@@ -13,7 +13,7 @@ buildNavigation().then(
  * adds events for the buttons on the backup page
  */
 function addBackupEventListeners() {
-    let importExampleDataButtonElement = document.getElementById("import-example-data-button");
+    let importExampleDataButtonElement = document.getElementById('import-example-data-button');
 
     importExampleDataButtonElement.onclick = function () {
         if (confirm('This will replace the current the data set.\n' +
@@ -28,7 +28,7 @@ function addBackupEventListeners() {
                 })
         }
     }
-    let downloadDatSetButtonElement = document.getElementById("download-data-set-button");
+    let downloadDatSetButtonElement = document.getElementById('download-data-set-button');
     downloadDatSetButtonElement.onclick = function () {
         getDataSet().then((data) => {
             let date = generateDateAndTimeString();
@@ -39,9 +39,9 @@ function addBackupEventListeners() {
             //create temporary url for the json object
             let tempUrl = URL.createObjectURL(file);
 
-            let aTagElement = document.createElement("a");
-            aTagElement.setAttribute("href", tempUrl);
-            aTagElement.setAttribute("download", 'backup-' + date);
+            let aTagElement = document.createElement('a');
+            aTagElement.setAttribute('href', tempUrl);
+            aTagElement.setAttribute('download', 'backup-' + date);
             document.body.appendChild(aTagElement);
             aTagElement.click(); //click the tag so that the download begins
             aTagElement.remove();  //remove the tag after the file is downloaded
@@ -53,7 +53,7 @@ function addBackupEventListeners() {
     }
 
 
-    let connectToBackupServerButtonElement = document.getElementById("connect-to-backup-server-button");
+    let connectToBackupServerButtonElement = document.getElementById('connect-to-backup-server-button');
     connectToBackupServerButtonElement.onclick = function () {
         getDispatcher();
     }
@@ -75,8 +75,8 @@ function addBackupEventListeners() {
                         .then(function (qaResult) {
                             qasContent = qaResult;
                             let jsonObject = {
-                                "categories": categoriesContent,
-                                "qas": qasContent
+                                'categories': categoriesContent,
+                                'qas': qasContent
                             };
 
                             let jsonObjectAsString = JSON.stringify(jsonObject);
@@ -97,7 +97,7 @@ function addBackupEventListeners() {
      * @param{string} storeName
      */
     function getDataAsArray(storeName) {
-        let store = getObjectStore(storeName, "readonly");
+        let store = getObjectStore(storeName, 'readonly');
 
 
         return new Promise(function (resolve, reject) {
@@ -164,7 +164,7 @@ function addBackupEventListeners() {
      */
     function generateDateAndTimeString() {
 
-        return (new Date()).toISOString().slice(0, 19).replace(":", "-").replace("T", "-").replace(":", "-");
+        return (new Date()).toISOString().slice(0, 19).replace(':', '-').replace('T', '-').replace(':', '-');
     }
 
     function connectionSucceeded() {
@@ -173,13 +173,13 @@ function addBackupEventListeners() {
         //clear previous content
         serverInfoContainerElement.innerHTML = '';
 
-        let h2Element = document.createElement("h2");
+        let h2Element = document.createElement('h2');
         h2Element.innerHTML = 'Connection to the server established';
         h2Element.style.color = 'var(--connection-succeeded-color)';
 
         serverInfoContainerElement.appendChild(h2Element);
 
-        if (getEntriesLink !== "") {
+        if (getEntriesLink !== '') {
             getEntries();
         }
     }
@@ -187,11 +187,11 @@ function addBackupEventListeners() {
     function noDataOnserver(msg) {
         let serverInfoContainerElement = document.getElementById('server-info-container');
 
-        let pElement = document.createElement("p");
+        let pElement = document.createElement('p');
         pElement.innerText = msg;
         serverInfoContainerElement.appendChild(pElement);
 
-        if (postEntriesLink !== "") {
+        if (postEntriesLink !== '') {
             addMakeBackupButton();
         }
     }
@@ -199,14 +199,14 @@ function addBackupEventListeners() {
     function addMakeBackupButton() {
         let serverInfoContainerElement = document.getElementById('server-info-container');
 
-        let makeBackupButtonElement = document.createElement("button");
-        makeBackupButtonElement.className = "global-button";
-        let spanElement = document.createElement("span");
-        spanElement.innerText = "cloud_upload";
-        spanElement.className = "material-symbols-outlined";
+        let makeBackupButtonElement = document.createElement('button');
+        makeBackupButtonElement.className = 'global-button';
+        let spanElement = document.createElement('span');
+        spanElement.innerText = 'cloud_upload';
+        spanElement.className = 'material-symbols-outlined';
         makeBackupButtonElement.appendChild(spanElement);
 
-        makeBackupButtonElement.innerHTML += "Upload New Backup";
+        makeBackupButtonElement.innerHTML += 'Upload New Backup';
 
         serverInfoContainerElement.appendChild(makeBackupButtonElement);
 
@@ -225,7 +225,7 @@ function addBackupEventListeners() {
         //clear previous content
         serverInfoContainerElement.innerHTML = '';
 
-        let h2Element = document.createElement("h2");
+        let h2Element = document.createElement('h2');
         h2Element.innerHTML = 'Connection to the server failed';
         h2Element.style.color = 'var(--connection-failed-color)';
 
@@ -237,14 +237,14 @@ function addBackupEventListeners() {
     function addTryAgainButton() {
         let serverInfoContainerElement = document.getElementById('server-info-container');
 
-        let tryAgainButtonElement = document.createElement("button");
-        tryAgainButtonElement.className = "global-button";
-        let spanElement = document.createElement("span");
-        spanElement.innerText = "restart_alt";
-        spanElement.className = "material-symbols-outlined";
+        let tryAgainButtonElement = document.createElement('button');
+        tryAgainButtonElement.className = 'global-button';
+        let spanElement = document.createElement('span');
+        spanElement.innerText = 'restart_alt';
+        spanElement.className = 'material-symbols-outlined';
         tryAgainButtonElement.appendChild(spanElement);
 
-        tryAgainButtonElement.innerHTML += "Try Again";
+        tryAgainButtonElement.innerHTML += 'Try Again';
         serverInfoContainerElement.appendChild(tryAgainButtonElement);
 
         tryAgainButtonElement.onclick = function () {
@@ -258,7 +258,7 @@ function addBackupEventListeners() {
     function backupFound(responseObject) {
         let serverInfoContainerElement = document.getElementById('server-info-container');
 
-        let pElement = document.createElement("p");
+        let pElement = document.createElement('p');
         let date = new Date(Date.parse(responseObject.lastUpdated));
         pElement.innerText = 'Backup from ' + date + ' found.';
         pElement.style.fontWeight = 'bold';
@@ -266,7 +266,7 @@ function addBackupEventListeners() {
         serverInfoContainerElement.appendChild(pElement);
         addUseBackupButton(responseObject);
 
-        if (postEntriesLink !== "") {
+        if (postEntriesLink !== '') {
             addMakeBackupButton();
         }
     }
@@ -276,9 +276,9 @@ function addBackupEventListeners() {
 
         let useBackupButtonElement = document.createElement('button');
         useBackupButtonElement.className = 'global-button';
-        let spanElement = document.createElement("span");
-        spanElement.innerText = "cloud_download";
-        spanElement.className = "material-symbols-outlined";
+        let spanElement = document.createElement('span');
+        spanElement.innerText = 'cloud_download';
+        spanElement.className = 'material-symbols-outlined';
         useBackupButtonElement.appendChild(spanElement);
         useBackupButtonElement.innerHTML += 'Use this backup';
 
@@ -308,7 +308,7 @@ function addBackupEventListeners() {
             addQAEntry(qa.question, qa.answer, qa.categoryId, false, qa.key);
         }
 
-        alert("Backup successfully imported!");
+        alert('Backup successfully imported!');
 
         getDispatcher();
     }

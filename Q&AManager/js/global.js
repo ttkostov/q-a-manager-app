@@ -3,16 +3,12 @@
  * @returns {Promise<void>}
  */
 async function buildNavigation() {
-
     try {
         let response = await fetch('../data/navigation.json');
         if (!response.ok) {
             throw new Error(response.statusText);
         }
-
         let responseObject = await response.json();
-        //responseObject.nav = undefined;
-
 
         let navigationData = responseObject.nav;
 
@@ -23,24 +19,24 @@ async function buildNavigation() {
         inputElement.id = 'check';
 
         let labelForCheckElement = document.createElement('label');
-        labelForCheckElement.setAttribute("for", "check");
+        labelForCheckElement.setAttribute('for', 'check');
         labelForCheckElement.className = 'checkbtn';
 
         let spanMenuIconElement = document.createElement('span');
-        spanMenuIconElement.className = "material-icons";
-        spanMenuIconElement.innerHTML = "menu";
+        spanMenuIconElement.className = 'material-icons';
+        spanMenuIconElement.innerHTML = 'menu';
 
         labelForCheckElement.appendChild(spanMenuIconElement);
 
         let labelLogoElement = document.createElement('label');
-        labelLogoElement.className = "logo";
-        labelLogoElement.innerHTML = "Q&A Manager";
+        labelLogoElement.className = 'logo';
+        labelLogoElement.innerHTML = 'Q&A Manager';
 
-        let currentPage = location.href.split("/").slice(-1)[0].split(".")[0];
+        let currentPage = location.href.split('/').slice(-1)[0].split('.')[0];
 
 
         let labelCurrentPageElement = document.createElement('label');
-        labelCurrentPageElement.className = "current-page-label";
+        labelCurrentPageElement.className = 'current-page-label';
 
         navElement.appendChild(inputElement);
         navElement.appendChild(labelForCheckElement);
@@ -52,9 +48,7 @@ async function buildNavigation() {
 
         for (let i = 0; i < navigationData.length; i++) {
             let navItem = {
-                "id": navigationData[i].id,
-                "name": navigationData[i].name,
-                "path": navigationData[i].path
+                'id': navigationData[i].id, 'name': navigationData[i].name, 'path': navigationData[i].path
             };
             let liElement = document.createElement('li');
             let aElement = document.createElement('a');
@@ -75,7 +69,6 @@ async function buildNavigation() {
 }
 
 class QuestionAnswer {
-  //  id;
     question;
     answer;
     categoryId;
@@ -100,7 +93,6 @@ class QuestionAnswer {
 }
 
 class Category {
-   // id;
     name;
     color;
 
@@ -110,27 +102,31 @@ class Category {
     }
 }
 
-const DB_NAME = "qa-manager-indexeddb";
+const DB_NAME = 'qa-manager-indexeddb';
 const DB_VERSION = 1;
-const DB_QA_STORE_NAME = "question-and-answers";
-const DB_CATEGORY_STORE_NAME = "categories";
+const DB_QA_STORE_NAME = 'question-and-answers';
+const DB_CATEGORY_STORE_NAME = 'categories';
 
 const BRIGHTEN_VALUE = 30;
 const DARKEN_VALUE = 25;
 
 let db;
 
+/**
+ * opens the database or initialises it if not already initialised
+ * @returns {Promise<unknown>}
+ */
 function openDb() {
-    console.log("opening database...");
+    console.log('opening database...');
     return new Promise((resolve, reject) => {
         let request = indexedDB.open(DB_NAME, DB_VERSION);
         request.onsuccess = function (evt) {
             db = this.result;
-            console.log("database opened");
+            console.log('database opened');
             resolve();
         }
         request.onerror = function (evt) {
-            console.error("error when opening the database:", evt.target.errorCode);
+            console.error('error when opening the database:', evt.target.errorCode);
             reject(evt.target.errorCode);
         }
 
@@ -159,7 +155,7 @@ function openDb() {
 
 /**
  * @param {string} store_name
- * @param {string} mode could be "readonly" or "readwrite"
+ * @param {string} mode could be 'readonly' or 'readwrite'
  */
 function getObjectStore(store_name, mode) {
     let transaction = db.transaction(store_name, mode);
@@ -168,7 +164,7 @@ function getObjectStore(store_name, mode) {
 
 /**
  * clears the object store for the Q&As
- * @param {boolean} displayListEntriesAfter true if displayListOfEntries schould be executed at the end,
+ * @param {boolean} displayListEntriesAfter true if displayListOfEntries should be executed at the end,
  * false otherwise
  */
 function clearQAsObjectStore(displayListEntriesAfter) {
@@ -177,18 +173,18 @@ function clearQAsObjectStore(displayListEntriesAfter) {
     request.onsuccess = function (evt) {
         if (displayListEntriesAfter) {
             alert('All data was successfully deleted from the database');
-            displayListOfEntries(store, true, true, "");
+            displayListOfEntries(store, true, true, '');
         }
 
     }
     request.onerror = function (evt) {
-        // todo display message for failure
+        displayErrorMessage(evt)
     }
 }
 
 /**
  * clears the object store for the categories
- * @param {boolean} displayListEntriesAfter true if displayListOfEntries schould be executed at the end,
+ * @param {boolean} displayListEntriesAfter true if displayListOfEntries should be executed at the end,
  * false otherwise
  */
 function clearCategoriesObjectStore(displayListEntriesAfter) {
@@ -202,7 +198,7 @@ function clearCategoriesObjectStore(displayListEntriesAfter) {
 
     }
     request.onerror = function (evt) {
-        // todo display message for failure
+        displayErrorMessage(evt);
     }
 }
 
@@ -227,15 +223,13 @@ function addQAEntry(question, answer, categoryId, displayListEntriesAfter, id) {
     }
 
     request.onsuccess = function (evt) {
-        console.log("entry inserted in DB");
+        console.log('entry inserted in DB');
         if (displayListEntriesAfter) {
-            displayListOfEntries(store, true, true, "");
+            displayListOfEntries(store, true, true, '');
         }
     }
     request.onerror = function (evt) {
-        alert('Error when adding entry to the database.\nPlease make sure that the question does not already exist in the database.');
-        console.error("error when adding entry:", evt.target.errorCode);
-        // todo display message for failure function
+        displayErrorMessage(evt, 'Error when adding entry to the database.\nPlease make sure that the question does not already exist in the database.\n')
     }
 
 }
@@ -263,17 +257,15 @@ function updateQAEntry(key, question, answer, categoryId) {
         let updateRequest = store.put(entry, key);
 
         updateRequest.onsuccess = function (evt) {
-            // todo display success message
-            displayListOfEntries(store, true, true,"");
+            console.log('Q&A updated!')
+            displayListOfEntries(store, true, true, '');
         }
         updateRequest.onerror = function (evt) {
-            console.error("error when updating entry:", evt.target.errorCode);
-            // todo show message for error??
+            console.error('error when updating entry:', evt.target.errorCode);
+            displayErrorMessage(evt, 'error when updating entry: ');
         }
 
     }
-
-
 }
 
 /**
@@ -296,29 +288,22 @@ function addCategoryEntry(name, color, displayListEntriesAfter, id) {
     }
     request.onsuccess = function (evt) {
 
-        console.log("entry inserted in DB");
+        console.log('entry inserted in DB');
         if (displayListEntriesAfter) {
             displayListOfEntries(store, false, false);
-            // todo display list of categories
         }
-
     }
     request.onerror = function (evt) {
-        alert('Error when adding entry to the database.\nPlease make sure that the category does not already exist in the database.');
-        console.error("error when adding entry:", evt.target.errorCode);
-        // todo display message for failure function
+        displayErrorMessage(evt, 'Error when adding entry to the database.\nPlease make sure that the category does not already exist in the database.\n');
     }
-
 }
-
-// todo put the other category functions here
 
 
 /**
  * @param {number} key
  */
 function deleteQAEntry(key) {
-    console.log("deleteQAEntry:", key);
+    console.log('deleteQAEntry:', key);
 
     let store = getObjectStore(DB_QA_STORE_NAME, 'readwrite');
 
@@ -326,32 +311,148 @@ function deleteQAEntry(key) {
     request.onsuccess = function (evt) {
         let record = evt.target.result;
         if (typeof record === 'undefined') {
-            // todo display failure message with text 'No matching record found'
+            displayErrorMessage(evt, 'No matching record found!\n');
             return;
         }
 
         let deleteRequest = store.delete(key);
         deleteRequest.onsuccess = function (evt) {
             alert('Question successfully deleted');
-            displayListOfEntries(store, 1, 1, "");
+            displayListOfEntries(store, true, true, '');
         }
 
         deleteRequest.onerror = function (evt) {
-            console.error("error when delete entry:", evt.target.errorCode);
-            // todo show message for error??
+            displayErrorMessage(evt, 'error when delete entry: ');
         }
     }
 
     request.onerror = function (evt) {
-        console.error("error when delete entry:", evt.target.errorCode);
+        console.error('error when delete entry:', evt.target.errorCode);
     }
 }
 
 
 /**
+ * updates a category entry in the database
+ * @param {number} key
+ * @param {string} name
+ * @param {color} color
+ */
+function updateCategoryEntry(key, name, color) {
+    let entry = new Category(name, color);
+    let store = getObjectStore(DB_CATEGORY_STORE_NAME, 'readwrite');
+
+
+    let request = store.get(key);
+    request.onsuccess = function (evt) {
+        let record = evt.target.result;
+        if (typeof record === 'undefined') {
+            alert('No matching record found');
+            return;
+        }
+
+        let updateRequest = store.put(entry, key);
+
+        updateRequest.onsuccess = function (evt) {
+            displayListOfEntries(store, false, false);
+            console.log('Category updated!');
+        }
+        updateRequest.onerror = function (evt) {
+            console.error('error when updating entry:', evt.target.errorCode);
+            displayErrorMessage(evt, 'Error when updating entry:\n');
+
+        }
+    }
+}
+
+
+/**
+ * deletes category from the database and all questions associated with it
+ * @param {number} key
+ */
+function deleteCategoryEntry(key) {
+    console.log('delete Category Entry:', key);
+
+    let store = getObjectStore(DB_CATEGORY_STORE_NAME, 'readwrite');
+
+    let request = store.get(key);
+    request.onsuccess = function (evt) {
+        let record = evt.target.result;
+        if (typeof record === 'undefined') {
+            displayErrorMessage(evt, 'No matching record found.\n');
+            return;
+        }
+
+        let deleteRequest = store.delete(key);
+        deleteRequest.onsuccess = function (evt) {
+            // also delete all question from this category
+            deleteAllQuestionsWithCategory(record, key);
+            displayListOfEntries(store, false, false);
+        }
+
+        deleteRequest.onerror = function (evt) {
+            displayErrorMessage(evt, 'Error when deleting entry:\n');
+        }
+    }
+
+    request.onerror = function (evt) {
+        console.error('error when delete entry:', evt.target.errorCode);
+    }
+}
+
+/**
+ * deletes all questions with the given category
+ * @param {Category} category category to be used
+ * @param {number} categoryKey id of the category record that has been updated
+ */
+function deleteAllQuestionsWithCategory(category, categoryKey) {
+    let store = getObjectStore(DB_QA_STORE_NAME, 'readwrite');
+
+    let numberOfEntriesRequest = store.count();
+    numberOfEntriesRequest.onsuccess = function (evt) {
+        let numberOfEntries = evt.target.result;
+        if (numberOfEntries === 0) {
+            return false;
+        }
+    }
+    numberOfEntriesRequest.onerror = function (evt) {
+        alert('Error when reading the question database');
+    }
+
+    let request = store.openCursor();
+    request.onsuccess = function (evt) {
+        let cursor = evt.target.result;
+
+        if (cursor) {
+            let key = cursor.key;
+            let idbRequest = store.get(key);
+            idbRequest.onsuccess = function (evt) {
+                let value = evt.target.result;
+                if (value.categoryId === categoryKey) {
+
+                    let deleteRequest = store.delete(key);
+                    deleteRequest.onsuccess = function (evt) {
+                        console.log('Q&A deleted: ' + value.question);
+                    }
+
+                    deleteRequest.onerror = function (evt) {
+                        console.error('error when deleting entry:', evt.target.errorCode);
+                    }
+
+
+                }
+            }
+            cursor.continue();
+        }
+    }
+
+}
+
+
+/**
  * @param {IDBObjectStore=} store the store to be used
- * @param {boolean=} isQA 1 when the function is used on index or manage pages, 0 when on categories page
- * @param {boolean=} displayOptions 1 when the option buttons should be displayed, 0 otherwise
+ * @param {boolean=} isQA true when the function is used on index or manage pages, false when on categories page
+ * @param {boolean=} displayOptions true when the option buttons should be displayed, false otherwise
  * @param {string=} searchText search text to look for
  *
  */
@@ -370,12 +471,12 @@ function displayListOfEntries(store, isQA, displayOptions, searchText) {
     // clear previous content
     // if on manage or categories page don't remove add button
     if (isQA && !displayOptions) { // index page
-        let searchContainer = document.getElementsByClassName("search-container")[0];
+        let searchContainer = document.getElementsByClassName('search-container')[0];
         while (searchContainer.nextSibling) {
             pageContentElement.removeChild(searchContainer.nextSibling);
         }
     } else if (decide) {
-        let optionsButtonContainerElement = document.getElementsByClassName("option-buttons-container")[0];
+        let optionsButtonContainerElement = document.getElementsByClassName('option-buttons-container')[0];
         while (optionsButtonContainerElement.nextSibling) {
             pageContentElement.removeChild(optionsButtonContainerElement.nextSibling);
         }
@@ -397,9 +498,8 @@ function displayListOfEntries(store, isQA, displayOptions, searchText) {
             h2Element.innerHTML = 'No entries found in the database.';
             if (decide) {
                 pElement.innerHTML = 'Please use the button to add ' + targetStringInPlural + ' or import an example set of data';
-                // todo add link here for the import of example data
 
-                let deleteQaButtonElement = document.getElementById("delete-all-entries-button");
+                let deleteQaButtonElement = document.getElementById('delete-all-entries-button');
                 deleteQaButtonElement.disabled = true;
             } else {
                 aElement.innerText = 'Manage';
@@ -435,7 +535,7 @@ function displayListOfEntries(store, isQA, displayOptions, searchText) {
             idbRequest.onsuccess = function (evt) {
                 let value = evt.target.result;
                 if (decide) {
-                    let deleteEntryButtonElement = document.getElementById("delete-all-entries-button");
+                    let deleteEntryButtonElement = document.getElementById('delete-all-entries-button');
                     deleteEntryButtonElement.disabled = false;
                 }
                 if (isQA) {
@@ -454,7 +554,7 @@ function displayListOfEntries(store, isQA, displayOptions, searchText) {
             };
             cursor.continue()
         } else {
-            if (isQA && !searchReturnedAtLeastOneEntry && searchText !== "") {
+            if (isQA && !searchReturnedAtLeastOneEntry && searchText !== '') {
                 h2Element.innerHTML = 'No entries for this search query.';
                 pageContentElement.appendChild(h2Element);
             }
@@ -507,7 +607,7 @@ function addCategoryToSelectElementInDialog(category, key) {
     let optionElement = document.createElement('option');
     optionElement.value = category.name;
     optionElement.innerText = category.name;
-    optionElement.setAttribute("category-id", key.toString());
+    optionElement.setAttribute('category-id', key.toString());
     setBackgroundColorOfElement(optionElement, category.color);
     selectElement.appendChild(optionElement);
 }
@@ -533,11 +633,19 @@ function setBackgroundColorOfElement(element, color) {
  * @param {boolean} displayOptions true if the options buttons are displayed on the page (manage page), false otherwise (index page)
  */
 function addSearchEventListener(displayOptions) {
-    let searchButtonElement = document.getElementById("search-button");
+    let searchButtonElement = document.getElementById('search-button');
     searchButtonElement.onclick = function (evt) {
-        let searchTextInputElement = document.getElementById("search-input");
+        let searchTextInputElement = document.getElementById('search-input');
         let searchText = searchTextInputElement.value;
-        let store = getObjectStore(DB_QA_STORE_NAME, "readonly");
+        let store = getObjectStore(DB_QA_STORE_NAME, 'readonly');
         displayListOfEntries(store, true, displayOptions, searchText);
     }
+}
+
+/**
+ * @param {Event} event
+ * @param {String} customMessage
+ */
+function displayErrorMessage(event, customMessage = '') {
+    alert(customMessage + event.target.error.message);
 }

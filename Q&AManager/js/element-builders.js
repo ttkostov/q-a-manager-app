@@ -2,9 +2,8 @@
  * builds an accordion element for a single Q&A entry
  * @param {number} key object key in the DB
  * @param {QuestionAnswer} object object to use
- * @param {boolean=} displayOptions 1 when the option buttons should be displayed (on the manage page), 0 otherwise (on index page)
+ * @param {boolean} displayOptions true when the option buttons should be displayed (on the manage page), false otherwise (on index page)
  */
-
 function buildQuestionAccordion(key, object, displayOptions) {
 
     let store = getObjectStore(DB_CATEGORY_STORE_NAME, 'readonly');
@@ -41,7 +40,7 @@ function buildQuestionAccordion(key, object, displayOptions) {
         let accordionContentElement = document.createElement('div');
         accordionContentElement.className = 'accordion-panel';
 
-        let lighterColor = new tinycolor(categoryColor).lighten(BRIGHTEN_VALUE/2).toString();
+        let lighterColor = new tinycolor(categoryColor).lighten(BRIGHTEN_VALUE / 2).toString();
         setBackgroundColorOfElement(accordionContentElement, lighterColor);
 
 
@@ -55,25 +54,24 @@ function buildQuestionAccordion(key, object, displayOptions) {
         pageContentElement.appendChild(categoryContainerElement);
 
         // add logic
-        accordionHeaderElement.addEventListener("click", function () {
+        accordionHeaderElement.addEventListener('click', function () {
             if (this.classList.contains('accordion-header')) {
-                this.classList.toggle("active");
+                this.classList.toggle('active');
             }
 
             let panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
+            if (panel.style.display === 'block') {
+                panel.style.display = 'none';
             } else {
-                panel.style.display = "block";
+                panel.style.display = 'block';
             }
         });
 
     }
 
     request.onerror = function () {
-        console.log("Error reading category database");
+        console.log('Error reading category database');
     }
-
 
 
 }
@@ -123,7 +121,7 @@ function buildDeleteAndOptionButtons(parentElement, isQA, key, object) {
         }
     } else {
         optionEditButtonElement.onclick = function (evt) {
-            openEditCategoryDialog(key, object); //todo
+            openEditCategoryDialog(key, object);
         }
 
         optionDeleteButtonElement.onclick = function (evt) {
@@ -137,7 +135,6 @@ function buildDeleteAndOptionButtons(parentElement, isQA, key, object) {
     }
 
 }
-
 
 /**
  * adds button for a category to the html

@@ -6,14 +6,14 @@ Q&A Manager is a Progressive Web Application (PWA) designed to manage Q&A entrie
 - Create and manage categories for Q&A entries.
 - Backup and restore Q&A data using a Rust server.
 
-## Technologies Used
+## Technologies and Libraries Used
 - HTML/CSS
-- JavaScript (Vanilla)
+- (vanilla) JavaScript 
 - [TinyColor](https://github.com/bgrins/TinyColor)
 - [Google Fonts Icons](https://fonts.google.com/icons)
 
 ## Live Demo
-A live version of the PWA is available at: [Q&A Manager Live Demo](https://ttkostov.github.io/q-a-manager-app/Q&AManager/pages/index.html)
+A live version is available at: [Q&A Manager Live Demo](https://ttkostov.github.io/q-a-manager-app/Q&AManager/pages/index.html). Due to the limited configuration options available on Github Pages, the PWA functionality doesn't work properly on the live demo.
 
 ## Getting Started
 Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
@@ -76,9 +76,6 @@ To ensure the backup server is functioning correctly, you can run the tests prov
     cargo test --bin Server
     ```
    This command will run all the tests and provide output indicating whether the tests passed or failed.
-
-## Contributing
-If you have suggestions for improving the app or would like to contribute, please fork the repository and create a pull request with your changes. All contributions are welcome!
 
 ## Acknowledgments
 This project was developed as part of the portfolio exam for the subject "Programming 3" at the Technical University of Applied Sciences Würzburg-Schweinfurt.
