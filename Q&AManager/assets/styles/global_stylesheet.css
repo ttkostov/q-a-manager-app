@@ -110,7 +110,7 @@ body {
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg-color: #102C57;
+        --bg-color: #203063;
         --font-color: white;
         --dialog-input-bg: #28516e;
 
